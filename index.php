@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<? ob_start();?>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="instap">
+    <!-- 网站图标 -->
+    <link rel="icon" href="/photos/orange.png">
+    <!-- 网站标题 -->
+    <title>凤凰科技导航页</title>
+    <!-- 引用外部CSS文件 -->
+    <link href="assets/m.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="assets/style.css">
+    <style>
+        /* 项目样式 */
+        .item {
+            transition:transform 0.3s ease-in-out,opacity 0.3s ease-in-out
+        }
+        .item:hover {
+            transform:scale(1.05);
+            opacity:0.9
+        }
+        .modal {
+            display:none;
+            position:fixed;
+            z-index:1;
+            padding-top:60px;
+            left:0;
+            top:0;
+            width:100%;
+            height:100%;
+            overflow:auto;
+            background-color:rgb(0,0,0);
+            background-color:rgba(0,0,0,0.4)
+        }
+        .modal-content {
+            margin:5% auto;
+            padding:20px;
+            border:1px solid #888;
+            width:80%;
+            max-width:700px
+        }
+        .close {
+            color:#aaa;
+            float:right;
+            font-size:28px;
+            font-weight:bold
+        }
+        .close:hover,.close:focus {
+            color:black;
+            text-decoration:none;
+            cursor:pointer
+        }
+        .web_notice {
+            position:fixed;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+            background:rgba(0,0,0,0.3);
+            z-index:99999
+        }
+        .web_notice_content {
+            position:fixed;
+            top:50%;
+            left:50%;
+            width:550px;
+            background:#FFF;
+            transform:translate(-50%,-50%);
+            border-radius:40px;
+            padding:50px 40px
+        }
+        .web_notice h3 {
+            font-weight:bold;
+            text-align:center;
+            font-size:30px
+        }
+        .web_notice p {
+            font-size:16px;
+            margin-top:26px;
+            line-height:30px;
+            color:#999
+        }
+        .web_notice a {
+            display:block;
+            background:#98a3ff;
+            color:#FFF;
+            text-align:center;
+            font-weight:bold;
+            font-size:19px;
+            line-height:60px;
+            margin:0 auto;
+            margin-top:45px;
+            border-radius:32px;
+            width:100%
+        }
+        @media (max-width:600px) {
+           .web_notice_content {
+                width:90%;
+                padding:30px 20px
+            }
+           .web_notice h3 {
+                font-size:24px
+            }
+           .web_notice a {
+                font-size:16px;
+                line-height:50px
+            }
+        }
+       .copyright-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            margin-top: 20px;
+            padding: 20px 0;
+        }
+       .copyright-container > span {
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #666;
+        }
+       .copyright-container a {
+            margin: 0 15px;
+            font-size: 14px;
+            color: #666;
+            text-decoration: none;
+        }
+       .copyright-container a:hover {
+            color: #333;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="header">
+            <div class="banner">
+                <!-- 网站Logo -->
+                <div class="logo">
+                    <img src="https://api.suyanw.cn/api/qq.php/?qq=824221" alt="">
+                </div>
+            </div>
+            <!-- 作者名称 -->
+            <div class="author-name">凤凰科技</div>
+            <!-- 描述 -->
+            <p class="desc">欢迎来到德莱联盟 </p>
+        </div>
+        <!-- 主要内容 -->
+        <div class="body">
+            <!-- 导航标签列表 -->
+            <div class="tab-list">
+                <div class="tab-item zy">
+                    <span class="text">导航</span>
+                </div>
+                <div class="tab-item lx">
+                    <span class="text">联系</span>
+                </div>
+                <div class="tab-item dh">
+                    <span class="text">动态</span>
+                </div>
+            </div>
+            <!-- 应用列表1 -->
+            <div class="app-list a1">
+                <a href="https://www.slios.cn/" class="item" target="_blank" style="opacity: 1;">
+                    <div class="content-wrap">
+                        <div class="img-wrap">
+                            <img src="/photos/yx.png" alt="">
+                        </div>
+                        <p class="app-name">歪叔网赚</p>
+                    </div>
+                </a>
+                <a href="https://pan.slios.cn:5288/" class="item" target="_blank" style="opacity: 1;">
+                    <div class="content-wrap">
+                        <div class="img-wrap">
+                            <img src="/photos/gj.png" alt="">
+                        </div>
+                        <p class="app-name">凤凰网盘</p>
+                    </div>
+                </a>
+                <a href="https://epay.slios.cn/" class="item" target="_blank" style="opacity: 1;">
+                    <div class="content-wrap">
+                        <div class="img-wrap">
+                            <img src="/photos/flyy.png" alt="">
+                        </div>
+                        <p class="app-name">E云付(易支付)</p>
+                    </div>
+                </a>
+                <a href="https://ka.slios.cn" class="item" target="_blank" style="opacity: 1;">
+                    <div class="content-wrap">
+                        <div class="img-wrap">
+                            <img src="/photos/ipa.png" alt="">
+                        </div>
+                        <p class="app-name">异次元发卡</p>
+                    </div>
+                </a>
+                <a href="https://www.slios.cn/" class="item" target="_blank" style="opacity: 1;">
+                    <div class="content-wrap">
+                        <div class="img-wrap">
+                            <img src="/photos/adobe.png" alt="">
+                        </div>
+                        <p class="app-name">独角数卡</p>
+                    </div>
+                </a>
+                <a href="https://www.slios.cn/" class="item" target="_blank" style="opacity: 1;">
+                    <div class="content-wrap">
+                        <div class="img-wrap">
+                            <img src="/photos/ym.png" alt="">
+                        </div>
+                        <p class="app-name">网站源码搭建</p>
+                    </div>
+                </a>
+                <a href="https://app.slios.cn/agent/" class="item" target="_blank" style="opacity: 1;">
+                    <div class="content-wrap">
+                        <div class="img-wrap">
+                            <img src="/photos/tv.png" alt="">
+                        </div>
+                        <p class="app-name">代理后台</p>
+                    </div>
+                </a>
+                <a href="https://www.slios.cn/" class="item" target="_blank" style="opacity: 1;">
+                    <div class="content-wrap">
+                        <div class="img-wrap">
+                            <img src="/photos/bz.png" alt="">
+                        </div>
+                        <p class="app-name">壁纸图片</p>
+                    </div>
+                </a>
+            </div>
+            <!-- 应用列表2 -->
+            <div class="app-list a2">
+                <a href="javascript:void(0);" class="item" style="opacity: 1;" onclick="showModal('/photos/vx.jpg')">
+                    <div class="content-wrap">
+                        <div class="img-wrap">
+                            <img src="/photos/微信.png" alt="">
+                        </div>
+                        <p class="app-name">我的微信</p>
+                    </div>
+                </a>
+                <a href="javascript:void(0);" class="item" style="opacity: 1;" onclick="showModal('/photos/QQ.jpg')">
+                    <div class="content-wrap">
+                        <div class="img-wrap">
+                            <img src="/photos/QQ图标.png" alt="">
+                        </div>
+                        <p class="app-name">我的QQ</p>
+                    </div>
+                </a>
+            </div>
+            <!-- 应用列表3 -->
+            <div class="app-list a3">
+                <a href="https://www.slios.cn/" class="item" target="_blank" style="opacity: 1;">
+                    <div class="content-wrap">
+                        <div class="img-wrap">
+                            <img src="/photos/QQ图标.png" alt="">
+                        </div>
+                        <p class="app-name">我的主页</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- 网站弹窗通知 -->
+    <div class="web_notice">
+        <div class="web_notice_content">
+            <h3>网站通知</h3>
+            <p>欢迎来到凤凰科技</p>
+            <a href="javascript:void(0);" onclick="document.querySelector('.web_notice').remove()">我知道了</a>
+        </div>
+    </div>
+    <!-- 模态框 -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <img id="modalImage" src="" alt="Image" style="width:100%">
+        </div>
+    </div>
+    <!-- 备案信息移到此处 -->
+    <div class="copyright-container">
+        <span>Copyright © 2025 梦旅人记‌</span>
+        <div>
+            <a href="https://beian.miit.gov.cn/" target="_blank">粤ICP备2025366842号-1</a>
+          <!--  <a href="https://www.beian.gov.cn/" target="_blank">公安备案</a>  -->
+        </div>
+    </div>
+    <!-- 引用jQuery库 -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <!-- 引用51.la统计代码 -->
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>
+        // 初始化51.la统计
+        LA.init({id:"JJMlnrlclQhzqGla",ck:"JJMlnrlclQhzqGla"});
+
+        // jQuery文档就绪函数
+        jQuery(document).ready(function($) {
+            // 默认显示第一个应用列表
+            $(".a1").css("display", "flex");
+            $(".a2").css("display", "none");
+            $(".a3").css("display", "none");
+
+            // 导航按钮点击事件
+            $(".zy").click(function() {
+                $(".a1").css("display", "flex");
+                $(".a2").css("display", "none");
+                $(".a3").css("display", "none");
+            });
+            $(".lx").click(function() {
+                $(".a1").css("display", "none");
+                $(".a2").css("display", "flex");
+                $(".a3").css("display", "none");
+            });
+            $(".dh").click(function() {
+                $(".a1").css("display", "none");
+                $(".a2").css("display", "none");
+                $(".a3").css("display", "flex");
+            });
+        });
+        // 显示模态框
+        function showModal(imageSrc) {
+            $("#modalImage").attr("src", imageSrc);
+            $("#myModal").css("display", "block");
+        }
+
+        // 关闭模态框
+        $(".close").click(function() {
+            $("#myModal").css("display", "none");
+        });
+
+        // 点击模态框外部关闭模态框
+        $(window).click(function(event) {
+            if ($(event.target).is("#myModal")) {
+                $("#myModal").css("display", "none");
+            }
+        });
+    </script>
+    <div id="xf-MusicPlayer" data-cdnName="https://player.xfyun.club/js"  data-themeColor="xf-orange" data-songList="12785396384" data-fadeOutAutoplay></div>
+    <script src="https://player.xfyun.club/js/xf-MusicPlayer/js/xf-MusicPlayer.min.js"></script>
+    <script src="https://api.suyanw.cn/api/mouse/yinghua.js"></script>
+    <script src="//cdn.suyanw.cn/suyan.js"></script>
+</body>
+</html>
+    
