@@ -287,32 +287,22 @@
 
 <!-- 访问统计显示 -->
 <div class="visit-stats">
-    <div class="stat-item">
-        <span class="stat-label">本站总访问量:</span>
-        <span class="stat-number" id="busuanzi_value_site_pv">0</span>
-    </div>
+    <span class="stat-label">总访问量:</span>
+    <span class="stat-number" id="busuanzi_value_site_pv">0</span>
 </div>
 
 <style>
-    /* 访问统计样式 */
+    /* 访问统计样式 - 完全透明 */
     .visit-stats {
-        margin: 20px 0;
-        padding: 10px 15px;
+        margin: 15px 0;
         text-align: center;
-    }
-    
-    .stat-item {
-        display: inline-block;
-        padding: 8px 15px;
-        background: #f8f9fa;
-        border-radius: 6px;
-        border: 1px solid #e9ecef;
+        background: transparent !important;
     }
     
     .stat-label {
         font-size: 14px;
-        color: #6c757d;
-        margin-right: 8px;
+        color: #666;
+        margin-right: 5px;
     }
     
     .stat-number {
