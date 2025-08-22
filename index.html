@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>微信浏览器提示</title>
+    <title>请使用外部浏览器打开</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -19,24 +20,32 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             padding: 20px;
+            line-height: 1.6;
         }
         
         .container {
             width: 100%;
-            max-width: 600px;
-            margin: auto;
+            max-width: 500px;
             background: white;
             border-radius: 20px;
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
             overflow: hidden;
+            text-align: center;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .header {
-            background: #2575fc;
+            background: #07C160;
             color: white;
-            text-align: center;
             padding: 25px 20px;
+            position: relative;
         }
         
         .header h1 {
@@ -47,6 +56,11 @@
         .header p {
             font-size: 16px;
             opacity: 0.9;
+        }
+        
+        .wechat-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
         }
         
         .content {
@@ -64,16 +78,25 @@
             justify-content: center;
             font-size: 40px;
             color: #2575fc;
+            border: 2px solid #2575fc;
         }
         
         .steps {
             margin: 25px 0;
+            text-align: left;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
         }
         
         .step {
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             margin-bottom: 20px;
+        }
+        
+        .step:last-child {
+            margin-bottom: 0;
         }
         
         .step-number {
@@ -87,57 +110,65 @@
             justify-content: center;
             margin-right: 15px;
             flex-shrink: 0;
+            font-weight: bold;
         }
         
         .step-text {
             line-height: 1.6;
         }
         
-        .browser-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 30px;
-        }
-        
-        .browser-btn {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none;
+        .highlight {
             color: #2575fc;
-            font-weight: 500;
-            transition: transform 0.3s;
+            font-weight: bold;
         }
         
-        .browser-btn:hover {
-            transform: translateY(-5px);
-        }
-        
-        .browser-icon-img {
-            width: 50px;
-            height: 50px;
-            margin-bottom: 8px;
-            font-size: 40px;
-        }
-        
-        .close-btn {
-            display: block;
-            width: 100%;
+        .url-box {
+            margin: 25px 0;
             padding: 15px;
-            background: #f5f7fa;
-            color: #657786;
-            text-align: center;
-            border: none;
+            background: #f9f9f9;
             border-radius: 10px;
-            margin-top: 20px;
+            border: 1px dashed #ccc;
+        }
+        
+        .url-display {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        #pageUrl {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: white;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        #copyBtn {
+            margin-left: 10px;
+            padding: 10px 15px;
+            background: #2575fc;
+            color: white;
+            border: none;
+            border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
             transition: all 0.3s;
         }
         
-        .close-btn:hover {
-            background: #e8ecef;
+        #copyBtn:hover {
+            background: #1c64e0;
+        }
+        
+        .success-message {
+            color: #28a745;
+            text-align: center;
+            margin-top: 10px;
+            font-weight: 500;
+            display: none;
         }
         
         .footer {
@@ -145,6 +176,7 @@
             padding: 20px;
             color: #999;
             font-size: 14px;
+            border-top: 1px solid #eee;
         }
         
         .hidden {
@@ -163,56 +195,51 @@
             .content {
                 padding: 20px;
             }
-            
-            .browser-buttons {
-                flex-wrap: wrap;
-            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="weixinPrompt">
         <div class="header">
+            <div class="wechat-icon">
+                <i class="fab fa-weixin"></i>
+            </div>
             <h1>微信访问提示</h1>
-            <p>为了更好的体验，请在浏览器中打开</p>
+            <p>请使用外部浏览器打开以获得完整功能</p>
         </div>
         
         <div class="content">
-            <div class="browser-icon">⚠️</div>
+            <div class="browser-icon">
+                <i class="fas fa-external-link-alt"></i>
+            </div>
             
-            <p>检测到您正在微信中浏览本页面。微信内置浏览器功能限制较多，可能会影响您的使用体验。</p>
+            <p>检测到您正在微信内置浏览器中打开本页面。微信内置浏览器功能限制较多，无法正常使用本站点的所有功能。</p>
             
             <div class="steps">
                 <div class="step">
                     <div class="step-number">1</div>
-                    <div class="step-text">点击右上角 <strong>•••</strong> 按钮</div>
+                    <div class="step-text">点击右上角 <strong class="highlight">•••</strong> 按钮</div>
                 </div>
                 <div class="step">
                     <div class="step-number">2</div>
-                    <div class="step-text">在弹出的菜单中选择 <strong>"在浏览器打开"</strong></div>
+                    <div class="step-text">在弹出的菜单中选择 <strong class="highlight">"在浏览器打开"</strong></div>
                 </div>
                 <div class="step">
                     <div class="step-number">3</div>
-                    <div class="step-text">选择您喜欢的浏览器访问本站点</div>
+                    <div class="step-text">选择您喜欢的外部浏览器访问</div>
                 </div>
             </div>
             
-            <div class="browser-buttons">
-                <a href="#" class="browser-btn">
-                    <div class="browser-icon-img">🔍</div>
-                    <span>Safari</span>
-                </a>
-                <a href="#" class="browser-btn">
-                    <div class="browser-icon-img">🌐</div>
-                    <span>Chrome</span>
-                </a>
-                <a href="#" class="browser-btn">
-                    <div class="browser-icon-img">🔵</div>
-                    <span>Edge</span>
-                </a>
+            <div class="url-box">
+                <h3>或者复制链接到浏览器</h3>
+                <div class="url-display">
+                    <input type="text" id="pageUrl" readonly value="https://www.example.com/target-page">
+                    <button id="copyBtn">复制</button>
+                </div>
+                <div class="success-message" id="copySuccess">
+                    <i class="fas fa-check-circle"></i> 链接已复制到剪贴板
+                </div>
             </div>
-            
-            <button class="close-btn" id="closePrompt">继续在微信中浏览</button>
         </div>
         
         <div class="footer">
@@ -221,33 +248,78 @@
     </div>
 
     <script>
+        // 目标网址 - 在实际使用中替换为您想要跳转的URL
+        const TARGET_URL = "https://www.example.com/target-page";
+        
         // 检测是否在微信内置浏览器中
         function isWeixinBrowser() {
             const ua = navigator.userAgent.toLowerCase();
             return ua.indexOf('micromessenger') !== -1;
         }
         
-        // 页面加载时检查
-        document.addEventListener('DOMContentLoaded', function() {
-            if (isWeixinBrowser()) {
-                // 在微信浏览器中，显示提示
-                document.querySelector('.container').classList.remove('hidden');
+        // 显示复制成功消息
+        function showCopySuccess() {
+            const successMsg = document.getElementById('copySuccess');
+            successMsg.style.display = 'block';
+            setTimeout(() => {
+                successMsg.style.display = 'none';
+            }, 2000);
+        }
+        
+        // 复制文本到剪贴板
+        function copyToClipboard(text) {
+            if (navigator.clipboard && window.isSecureContext) {
+                // 使用新的Clipboard API（如果可用）
+                navigator.clipboard.writeText(text).then(() => {
+                    showCopySuccess();
+                }).catch(err => {
+                    fallbackCopyText(text);
+                });
+            } else {
+                // 使用传统的execCommand方法
+                fallbackCopyText(text);
+            }
+        }
+        
+        // 传统的复制方法
+        function fallbackCopyText(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.opacity = 0;
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showCopySuccess();
+                }
+            } catch (err) {
+                console.error('无法复制文本: ', err);
             }
             
-            // 关闭提示按钮
-            document.getElementById('closePrompt').addEventListener('click', function() {
-                document.querySelector('.container').classList.add('hidden');
-                
-                // 这里可以添加您希望用户在微信中浏览的实际内容
-                const content = document.createElement('div');
-                content.innerHTML = `
-                    <div style="text-align: center; padding: 50px 20px; color: white;">
-                        <h2>页面内容</h2>
-                        <p style="margin-top: 20px;">您现在在微信中浏览页面，部分功能可能受限。</p>
-                        <p style="margin-top: 10px;">为了获得完整体验，请随时使用浏览器打开。</p>
-                    </div>
-                `;
-                document.body.appendChild(content);
+            document.body.removeChild(textArea);
+        }
+        
+        // 页面加载时检查
+        document.addEventListener('DOMContentLoaded', function() {
+            const pageUrlInput = document.getElementById('pageUrl');
+            pageUrlInput.value = TARGET_URL;
+            
+            if (!isWeixinBrowser()) {
+                // 不在微信浏览器中，直接跳转到目标页面
+                window.location.href = TARGET_URL;
+                return;
+            }
+            
+            // 在微信浏览器中，显示提示
+            document.getElementById('weixinPrompt').classList.remove('hidden');
+            
+            // 复制按钮事件
+            document.getElementById('copyBtn').addEventListener('click', function() {
+                copyToClipboard(pageUrlInput.value);
             });
         });
     </script>
