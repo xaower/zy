@@ -1,389 +1,255 @@
 <!DOCTYPE html>
-<? ob_start();?>
 <html lang="zh-CN">
 <head>
-    <meta charset="utf-8">
-    <title>请使用系统浏览器打开此页面</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微信浏览器提示</title>
     <style>
-        /* 隐藏引导层，默认不显示 */
-        #weixin-tip {
-            display: none;
-            position: fixed;
-            left: 0;
-            top: 0;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
             width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            color: #fff;
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: #2575fc;
+            color: white;
             text-align: center;
-            font-size: 20px;
-            padding-top: 50px;
+            padding: 25px 20px;
         }
-        #weixin-tip img {
-            width: 80%;
-            max-width: 400px;
+        
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
         }
-    </style>
-</head>
-    <div id="weixin-tip">
-        <p>请点击右上角...</p>
-        <p>选择“在默认浏览器中打开”</p>
-        <p>打不开请切换网络</p>
-        <p>wifi?移动网络？🪜？</p>
-        <img src="https://cdn.jsdelivr.net/gh/xaower/dingyue@9e7ada327cb97789118b72bb34b74de882c79c58/74005c6fe92e8ea9778627161684f36.jpg" alt="引导图片">
-    </div>
-
-    <script>
-        // 检测是否在微信中打开
-        function isWeixin() {
-            var ua = window.navigator.userAgent.toLowerCase();
-            return ua.includes('micromessenger');
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
         }
-
-        // 如果是在微信中打开，则显示引导层
-        if (isWeixin()) {
-            document.getElementById('weixin-tip').style.display = 'block';
+        
+        .content {
+            padding: 30px;
         }
-            </script>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="instap">
-    <!-- 网站图标 -->
-    <link rel="icon" href="/photos/orange.png">
-    <!-- 网站标题 -->
-    <title>知墙导航页</title>
-    <!-- 引用外部CSS文件 -->
-    <link href="assets/m.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="assets/style.css">
-    <style>
-        /* 项目样式 */
-        .item {
-            transition:transform 0.3s ease-in-out,opacity 0.3s ease-in-out
+        
+        .browser-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: #f1f8ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: #2575fc;
         }
-        .item:hover {
-            transform:scale(1.05);
-            opacity:0.9
+        
+        .steps {
+            margin: 25px 0;
         }
-        .modal {
-            display:none;
-            position:fixed;
-            z-index:1;
-            padding-top:60px;
-            left:0;
-            top:0;
-            width:100%;
-            height:100%;
-            overflow:auto;
-            background-color:rgb(0,0,0);
-            background-color:rgba(0,0,0,0.4)
+        
+        .step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
         }
-        .modal-content {
-            margin:5% auto;
-            padding:20px;
-            border:1px solid #888;
-            width:80%;
-            max-width:700px
+        
+        .step-number {
+            background: #2575fc;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
         }
-        .close {
-            color:#aaa;
-            float:right;
-            font-size:28px;
-            font-weight:bold
+        
+        .step-text {
+            line-height: 1.6;
         }
-        .close:hover,.close:focus {
-            color:black;
-            text-decoration:none;
-            cursor:pointer
-        }
-        .web_notice {
-            position:fixed;
-            top:0;
-            left:0;
-            width:100%;
-            height:100%;
-            background:rgba(0,0,0,0.3);
-            z-index:99999
-        }
-        .web_notice_content {
-            position:fixed;
-            top:50%;
-            left:50%;
-            width:550px;
-            background:#FFF;
-            transform:translate(-50%,-50%);
-            border-radius:40px;
-            padding:50px 40px
-        }
-        .web_notice h3 {
-            font-weight:bold;
-            text-align:center;
-            font-size:30px
-        }
-        .web_notice p {
-            font-size:16px;
-            margin-top:26px;
-            line-height:30px;
-            color:#999
-        }
-        .web_notice a {
-            display:block;
-            background:#98a3ff;
-            color:#FFF;
-            text-align:center;
-            font-weight:bold;
-            font-size:19px;
-            line-height:60px;
-            margin:0 auto;
-            margin-top:45px;
-            border-radius:32px;
-            width:100%
-        }
-        @media (max-width:600px) {
-           .web_notice_content {
-                width:90%;
-                padding:30px 20px
-            }
-           .web_notice h3 {
-                font-size:24px
-            }
-           .web_notice a {
-                font-size:16px;
-                line-height:50px
-            }
-        }
-       .copyright-container {
+        
+        .browser-buttons {
             display: flex;
             justify-content: center;
-            align-items: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .browser-btn {
+            display: flex;
             flex-direction: column;
-            text-align: center;
-            margin-top: 20px;
-            padding: 20px 0;
-        }
-       .copyright-container > span {
-            margin-bottom: 15px;
-            font-size: 14px;
-            color: #666;
-        }
-       .copyright-container a {
-            margin: 0 15px;
-            font-size: 14px;
-            color: #666;
+            align-items: center;
             text-decoration: none;
+            color: #2575fc;
+            font-weight: 500;
+            transition: transform 0.3s;
         }
-       .copyright-container a:hover {
-            color: #333;
-            text-decoration: underline;
+        
+        .browser-btn:hover {
+            transform: translateY(-5px);
+        }
+        
+        .browser-icon-img {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 8px;
+            font-size: 40px;
+        }
+        
+        .close-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: #f5f7fa;
+            color: #657786;
+            text-align: center;
+            border: none;
+            border-radius: 10px;
+            margin-top: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .close-btn:hover {
+            background: #e8ecef;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #999;
+            font-size: 14px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                border-radius: 15px;
+            }
+            
+            .header {
+                padding: 20px 15px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .browser-buttons {
+                flex-wrap: wrap;
+            }
         }
     </style>
 </head>
 <body>
-    <div id="app">
+    <div class="container">
         <div class="header">
-            <div class="banner">
-                <!-- 网站Logo -->
-                <div class="logo">
-                    <img src="https://api.suyanw.cn/api/qq.php/?qq=824221" alt="">
+            <h1>微信访问提示</h1>
+            <p>为了更好的体验，请在浏览器中打开</p>
+        </div>
+        
+        <div class="content">
+            <div class="browser-icon">⚠️</div>
+            
+            <p>检测到您正在微信中浏览本页面。微信内置浏览器功能限制较多，可能会影响您的使用体验。</p>
+            
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-text">点击右上角 <strong>•••</strong> 按钮</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-text">在弹出的菜单中选择 <strong>"在浏览器打开"</strong></div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-text">选择您喜欢的浏览器访问本站点</div>
                 </div>
             </div>
-            <!-- 作者名称 -->
-            <div class="author-name">凤凰科技</div>
-            <!-- 描述 -->
-            <p class="desc">欢迎来到德莱联盟 </p>
-        </div>
-        <!-- 主要内容 -->
-        <div class="body">
-            <!-- 导航标签列表 -->
-            <div class="tab-list">
-                <div class="tab-item zy">
-                    <span class="text">导航</span>
-                </div>
-                <div class="tab-item lx">
-                    <span class="text">联系</span>
-                </div>
-                <div class="tab-item dh">
-                    <span class="text">动态</span>
-                </div>
-            </div>
-            <!-- 应用列表1 -->
-            <div class="app-list a1">
-                <a href="https://www.slios.cn/" class="item" target="_blank" style="opacity: 1;">
-                    <div class="content-wrap">
-                        <div class="img-wrap">
-                            <img src="photos/yx.png" alt="">
-                        </div>
-                        <p class="app-name">歪叔网赚</p>
-                    </div>
+            
+            <div class="browser-buttons">
+                <a href="#" class="browser-btn">
+                    <div class="browser-icon-img">🔍</div>
+                    <span>Safari</span>
                 </a>
-                <a href="https://pan.slios.cn:5288/" class="item" target="_blank" style="opacity: 1;">
-                    <div class="content-wrap">
-                        <div class="img-wrap">
-                            <img src="/photos/gj.png" alt="">
-                        </div>
-                        <p class="app-name">凤凰网盘</p>
-                    </div>
+                <a href="#" class="browser-btn">
+                    <div class="browser-icon-img">🌐</div>
+                    <span>Chrome</span>
                 </a>
-                <a href="https://epay.slios.cn/" class="item" target="_blank" style="opacity: 1;">
-                    <div class="content-wrap">
-                        <div class="img-wrap">
-                            <img src="/photos/flyy.png" alt="">
-                        </div>
-                        <p class="app-name">E云付(易支付)</p>
-                    </div>
-                </a>
-                <a href="https://ka.slios.cn" class="item" target="_blank" style="opacity: 1;">
-                    <div class="content-wrap">
-                        <div class="img-wrap">
-                            <img src="/photos/ipa.png" alt="">
-                        </div>
-                        <p class="app-name">异次元发卡</p>
-                    </div>
-                </a>
-                <a href="https://www.slios.cn/" class="item" target="_blank" style="opacity: 1;">
-                    <div class="content-wrap">
-                        <div class="img-wrap">
-                            <img src="/photos/adobe.png" alt="">
-                        </div>
-                        <p class="app-name">独角数卡</p>
-                    </div>
-                </a>
-                <a href="https://www.slios.cn/" class="item" target="_blank" style="opacity: 1;">
-                    <div class="content-wrap">
-                        <div class="img-wrap">
-                            <img src="/photos/ym.png" alt="">
-                        </div>
-                        <p class="app-name">网站源码搭建</p>
-                    </div>
-                </a>
-                <a href="https://app.slios.cn/agent/" class="item" target="_blank" style="opacity: 1;">
-                    <div class="content-wrap">
-                        <div class="img-wrap">
-                            <img src="/photos/tv.png" alt="">
-                        </div>
-                        <p class="app-name">代理后台</p>
-                    </div>
-                </a>
-                <a href="https://www.slios.cn/" class="item" target="_blank" style="opacity: 1;">
-                    <div class="content-wrap">
-                        <div class="img-wrap">
-                            <img src="/photos/bz.png" alt="">
-                        </div>
-                        <p class="app-name">壁纸图片</p>
-                    </div>
+                <a href="#" class="browser-btn">
+                    <div class="browser-icon-img">🔵</div>
+                    <span>Edge</span>
                 </a>
             </div>
-            <!-- 应用列表2 -->
-            <div class="app-list a2">
-                <a href="javascript:void(0);" class="item" style="opacity: 1;" onclick="showModal('/photos/vx.jpg')">
-                    <div class="content-wrap">
-                        <div class="img-wrap">
-                            <img src="/photos/微信.png" alt="">
-                        </div>
-                        <p class="app-name">我的微信</p>
-                    </div>
-                </a>
-                <a href="javascript:void(0);" class="item" style="opacity: 1;" onclick="showModal('/photos/QQ.jpg')">
-                    <div class="content-wrap">
-                        <div class="img-wrap">
-                            <img src="/photos/QQ图标.png" alt="">
-                        </div>
-                        <p class="app-name">我的QQ</p>
-                    </div>
-                </a>
-            </div>
-            <!-- 应用列表3 -->
-            <div class="app-list a3">
-                <a href="https://www.slios.cn/" class="item" target="_blank" style="opacity: 1;">
-                    <div class="content-wrap">
-                        <div class="img-wrap">
-                            <img src="/photos/QQ图标.png" alt="">
-                        </div>
-                        <p class="app-name">我的主页</p>
-                    </div>
-                </a>
-            </div>
+            
+            <button class="close-btn" id="closePrompt">继续在微信中浏览</button>
+        </div>
+        
+        <div class="footer">
+            <p>© 2023 网站名称 - 提供更好的浏览体验</p>
         </div>
     </div>
-    <!-- 网站弹窗通知 -->
-    <div class="web_notice">
-        <div class="web_notice_content">
-            <h3>网站通知</h3>
-            <p>欢迎来到凤凰科技</p>
-            <a href="javascript:void(0);" onclick="document.querySelector('.web_notice').remove()">我知道了</a>
-        </div>
-    </div>
-    <!-- 模态框 -->
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <img id="modalImage" src="" alt="Image" style="width:100%">
-        </div>
-    </div>
-    <!-- 备案信息移到此处 -->
-    <div class="copyright-container">
-        <span>Copyright © 2025 梦旅人记‌</span>
-        <div>
-            <a href="https://beian.miit.gov.cn/" target="_blank">粤ICP备2025366842号-1</a>
-          <!--  <a href="https://www.beian.gov.cn/" target="_blank">公安备案</a>  -->
-        </div>
-    </div>
-    <!-- 引用jQuery库 -->
-    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <!-- 引用51.la统计代码 -->
-    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+
     <script>
-        // 初始化51.la统计
-        LA.init({id:"JJMlnrlclQhzqGla",ck:"JJMlnrlclQhzqGla"});
-
-        // jQuery文档就绪函数
-        jQuery(document).ready(function($) {
-            // 默认显示第一个应用列表
-            $(".a1").css("display", "flex");
-            $(".a2").css("display", "none");
-            $(".a3").css("display", "none");
-
-            // 导航按钮点击事件
-            $(".zy").click(function() {
-                $(".a1").css("display", "flex");
-                $(".a2").css("display", "none");
-                $(".a3").css("display", "none");
-            });
-            $(".lx").click(function() {
-                $(".a1").css("display", "none");
-                $(".a2").css("display", "flex");
-                $(".a3").css("display", "none");
-            });
-            $(".dh").click(function() {
-                $(".a1").css("display", "none");
-                $(".a2").css("display", "none");
-                $(".a3").css("display", "flex");
-            });
-        });
-        // 显示模态框
-        function showModal(imageSrc) {
-            $("#modalImage").attr("src", imageSrc);
-            $("#myModal").css("display", "block");
+        // 检测是否在微信内置浏览器中
+        function isWeixinBrowser() {
+            const ua = navigator.userAgent.toLowerCase();
+            return ua.indexOf('micromessenger') !== -1;
         }
-
-        // 关闭模态框
-        $(".close").click(function() {
-            $("#myModal").css("display", "none");
-        });
-
-        // 点击模态框外部关闭模态框
-        $(window).click(function(event) {
-            if ($(event.target).is("#myModal")) {
-                $("#myModal").css("display", "none");
+        
+        // 页面加载时检查
+        document.addEventListener('DOMContentLoaded', function() {
+            if (isWeixinBrowser()) {
+                // 在微信浏览器中，显示提示
+                document.querySelector('.container').classList.remove('hidden');
             }
+            
+            // 关闭提示按钮
+            document.getElementById('closePrompt').addEventListener('click', function() {
+                document.querySelector('.container').classList.add('hidden');
+                
+                // 这里可以添加您希望用户在微信中浏览的实际内容
+                const content = document.createElement('div');
+                content.innerHTML = `
+                    <div style="text-align: center; padding: 50px 20px; color: white;">
+                        <h2>页面内容</h2>
+                        <p style="margin-top: 20px;">您现在在微信中浏览页面，部分功能可能受限。</p>
+                        <p style="margin-top: 10px;">为了获得完整体验，请随时使用浏览器打开。</p>
+                    </div>
+                `;
+                document.body.appendChild(content);
+            });
         });
     </script>
-    <div id="xf-MusicPlayer" data-cdnName="https://player.xfyun.club/js"  data-themeColor="xf-orange" data-songList="12785396384" data-fadeOutAutoplay></div>
-    <script src="https://player.xfyun.club/js/xf-MusicPlayer/js/xf-MusicPlayer.min.js"></script>
-    <script src="https://api.suyanw.cn/api/mouse/yinghua.js"></script>
-    <script src="//cdn.suyanw.cn/suyan.js"></script>
 </body>
 </html>
-    
