@@ -280,22 +280,91 @@
         </div>
     </div>
     
-     <span><script type="text/javascript" src="https://api.suyanw.cn/api/tiangou.php?type=js"></script><script>suyan()</script>‌</span>
+    <script type="text/javascript" src="https://api.suyanw.cn/api/tiangou.php?type=js"></script><script>suyan()</script>‌
 
-            <!-- 不蒜子访问统计 -->
-    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <div class="visit-stats">
-        <div class="stats-container">
-            <div class="stat-card">
-                <div class="stat-icon">👁️</div>
-                <div class="stat-number">
-                    <span id="busuanzi_value_site_pv">0</span>
-                </div>
-                <div class="stat-label">总访问量</div>
+<!-- 不蒜子计数 -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!-- 访问统计显示 -->
+<div class="visit-stats">
+    <div class="stats-container">
+        <div class="stat-card">
+            <div class="stat-icon">👁️</div>
+            <div class="stat-number">
+                <span id="busuanzi_value_site_pv">0</span>
             </div>
+            <div class="stat-label">总访问量</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">👥</div>
+            <div class="stat-number">
+                <span id="busuanzi_value_site_uv">0</span>
             </div>
+            <div class="stat-label">总访客数</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">📄</div>
+            <div class="stat-number">
+                <span id="busuanzi_value_page_pv">0</span>
+            </div>
+            <div class="stat-label">本文阅读量</div>
         </div>
     </div>
+</div>
+
+<style>
+    /* 访问统计样式 */
+    .visit-stats {
+        margin: 30px 0 20px;
+        padding: 0 20px;
+    }
+    
+    .stats-container {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .stat-card {
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+        color: white;
+        border-radius: 15px;
+        padding: 20px;
+        min-width: 180px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        flex: 1;
+    }
+    
+    .stat-icon {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    
+    .stat-label {
+        font-size: 1rem;
+        opacity: 0.9;
+    }
+    
+    @media (max-width: 600px) {
+        .stats-container {
+            flex-direction: column;
+        }
+        
+        .stat-card {
+            min-width: auto;
+        }
+    }
+</style>
     <!-- 备案信息移到此处 -->
     </div>
     <!-- 引用jQuery库 -->
