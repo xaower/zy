@@ -3,6 +3,49 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8">
+        <title>请使用系统浏览器打开此页面</title>
+    <style>
+        /* 隐藏引导层，默认不显示 */
+        #weixin-tip {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            color: #fff;
+            text-align: center;
+            font-size: 20px;
+            padding-top: 50px;
+        }
+        #weixin-tip img {
+            width: 80%;
+            max-width: 400px;
+        }
+    </style>
+</head>
+    <div id="weixin-tip">
+        <p>请点击右上角...</p>
+        <p>选择“在默认浏览器中打开”</p>
+        <p>打不开请切换网络</p>
+        <p>wifi?移动网络？🪜？</p>
+        <img src="https://cdn.jsdelivr.net/gh/xaower/dingyue@9e7ada327cb97789118b72bb34b74de882c79c58/74005c6fe92e8ea9778627161684f36.jpg" alt="引导图片">
+    </div>
+
+    <script>
+        // 检测是否在微信中打开
+        function isWeixin() {
+            var ua = window.navigator.userAgent.toLowerCase();
+            return ua.includes('micromessenger');
+        }
+
+        // 如果是在微信中打开，则显示引导层
+        if (isWeixin()) {
+            document.getElementById('weixin-tip').style.display = 'block';
+        }
+            </script>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
