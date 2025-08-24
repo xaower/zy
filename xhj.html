@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>安全访问 - 需要密码验证</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 90%;
+            max-width: 450px;
+            transition: all 0.3s ease;
+        }
+        
+        h1 {
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        p {
+            margin-bottom: 25px;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        
+        .input-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        input {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+        }
+        
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            background: #fff;
+            color: #b21f1f;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .error-message {
+            color: #ff9e9e;
+            margin-top: 15px;
+            font-weight: 500;
+            min-height: 20px;
+        }
+        
+        .success-message {
+            margin-top: 20px;
+            color: #a0ffa0;
+            font-weight: 500;
+        }
+        
+        .attempts {
+            margin-top: 15px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .password-toggle {
+            position: relative;
+        }
+        
+        .toggle-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+        
+        .toggle-icon:hover {
+            opacity: 1;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="login-container">
+        <div class="logo">🔒</div>
+        <h1>需要授权访问</h1>
+        <p>此内容受密码保护，输入密码继续访问</p>
+        <p>(公众号回复""密码""获取)</p>
+        
+        <div class="input-group">
+            <label for="password">密码</label>
+            <div class="password-toggle">
+                <input type="password" id="password" placeholder="输入访问密码">
+                <span class="toggle-icon" id="toggle-password">👁️</span>
+            </div>
+        </div>
+        
+        <button id="submit-btn">验证并进入</button>
+        
+        <div class="error-message" id="error-message"></div>
+        <div class="attempts" id="attempts">剩余尝试次数: 5</div>
+    </div>
+    
+    <div class="container hidden" id="success-container">
+        <div class="logo">✅</div>
+        <h1>验证成功！</h1>
+        <p>您已通过身份验证，正在跳转到目标页面...</p>
+        <div class="success-message" id="countdown">5秒后自动跳转</div>
+        <p style="margin-top: 20px; font-size: 14px;">
+            如果页面没有自动跳转，请<a href="#" id="manual-redirect" style="color: #fff; text-decoration: underline;">点击此处</a>
+        </p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 配置项
+            const CORRECT_PASSWORD = '12345'; // 修改为您想要的密码
+            const TARGET_URL = 'https://aunlock.laomaos.com/share/UVeEcANtgk'; // 修改为目标网址
+            const MAX_ATTEMPTS = 5;
+            
+            // 元素引用
+            const loginContainer = document.getElementById('login-container');
+            const successContainer = document.getElementById('success-container');
+            const passwordInput = document.getElementById('password');
+            const submitBtn = document.getElementById('submit-btn');
+            const errorMessage = document.getElementById('error-message');
+            const attemptsDisplay = document.getElementById('attempts');
+            const togglePassword = document.getElementById('toggle-password');
+            const countdownDisplay = document.getElementById('countdown');
+            const manualRedirect = document.getElementById('manual-redirect');
+            
+            // 状态变量
+            let attempts = MAX_ATTEMPTS;
+            let countdownInterval;
+            
+            // 切换密码可见性
+            togglePassword.addEventListener('click', function() {
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    togglePassword.textContent = '🔒';
+                } else {
+                    passwordInput.type = 'password';
+                    togglePassword.textContent = '👁️';
+                }
+            });
+            
+            // 提交密码
+            submitBtn.addEventListener('click', validatePassword);
+            passwordInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    validatePassword();
+                }
+            });
+            
+            // 手动跳转链接
+            manualRedirect.addEventListener('click', function(e) {
+                e.preventDefault();
+                redirectToTarget();
+            });
+            
+            function validatePassword() {
+                const password = passwordInput.value.trim();
+                
+                if (!password) {
+                    showError('请输入密码');
+                    return;
+                }
+                
+                if (password === CORRECT_PASSWORD) {
+                    // 密码正确
+                    loginContainer.classList.add('hidden');
+                    successContainer.classList.remove('hidden');
+                    startCountdown();
+                } else {
+                    // 密码错误
+                    attempts--;
+                    attemptsDisplay.textContent = `剩余尝试次数: ${attempts}`;
+                    
+                    if (attempts <= 0) {
+                        showError('尝试次数过多，请稍后再试');
+                        submitBtn.disabled = true;
+                    } else {
+                        showError('密码不正确，请重新输入');
+                        passwordInput.value = '';
+                        passwordInput.focus();
+                    }
+                }
+            }
+            
+            function showError(message) {
+                errorMessage.textContent = message;
+            }
+            
+            function startCountdown() {
+                let countdown = 5;
+                
+                countdownInterval = setInterval(() => {
+                    countdown--;
+                    countdownDisplay.textContent = `${countdown}秒后自动跳转`;
+                    
+                    if (countdown <= 0) {
+                        clearInterval(countdownInterval);
+                        redirectToTarget();
+                    }
+                }, 1000);
+            }
+            
+            function redirectToTarget() {
+                clearInterval(countdownInterval);
+                window.location.href = TARGET_URL;
+            }
+        });
+    </script>
+</body>
+</html>
