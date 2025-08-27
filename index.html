@@ -122,55 +122,6 @@
             font-weight: bold;
         }
         
-        .url-box {
-            margin: 25px 0;
-            padding: 15px;
-            background: #f9f9f9;
-            border-radius: 10px;
-            border: 1px dashed #ccc;
-        }
-        
-        .url-display {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-        
-        #pageUrl {
-            flex-grow: 1;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background: white;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        
-        #copyBtn {
-            margin-left: 10px;
-            padding: 10px 15px;
-            background: #2575fc;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        #copyBtn:hover {
-            background: #1c64e0;
-        }
-        
-        .success-message {
-            color: #28a745;
-            text-align: center;
-            margin-top: 10px;
-            font-weight: 500;
-            display: none;
-        }
-        
         .footer {
             text-align: center;
             padding: 20px;
@@ -228,16 +179,6 @@
                     <div class="step-number">3</div>
                     <div class="step-text">打不开请切换网络比如：魔法网络/wifi/流量</div>
                 </div>
-            </div> 
-                 <div class="url-box">
-                <h3>或者复制链接到浏览器</h3>
-                <div class="url-display">
-                    <input type="text" id="pageUrl" readonly value="jd.168981.xyz">
-                    <button id="copyBtn">复制</button>
-                </div>
-                <div class="success-message" id="copySuccess">
-                    <i class="fas fa-check-circle"></i> 链接已复制到剪贴板
-                </div>
             </div>
         </div>
         
@@ -256,57 +197,8 @@
             return ua.indexOf('micromessenger') !== -1;
         }
         
-        // 显示复制成功消息
-        function showCopySuccess() {
-            const successMsg = document.getElementById('copySuccess');
-            successMsg.style.display = 'block';
-            setTimeout(() => {
-                successMsg.style.display = 'none';
-            }, 2000);
-        }
-        
-        // 复制文本到剪贴板
-        function copyToClipboard(text) {
-            if (navigator.clipboard && window.isSecureContext) {
-                // 使用新的Clipboard API（如果可用）
-                navigator.clipboard.writeText(text).then(() => {
-                    showCopySuccess();
-                }).catch(err => {
-                    fallbackCopyText(text);
-                });
-            } else {
-                // 使用传统的execCommand方法
-                fallbackCopyText(text);
-            }
-        }
-        
-        // 传统的复制方法
-        function fallbackCopyText(text) {
-            const textArea = document.createElement("textarea");
-            textArea.value = text;
-            textArea.style.position = "fixed";
-            textArea.style.opacity = 0;
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            
-            try {
-                const successful = document.execCommand('copy');
-                if (successful) {
-                    showCopySuccess();
-                }
-            } catch (err) {
-                console.error('无法复制文本: ', err);
-            }
-            
-            document.body.removeChild(textArea);
-        }
-        
         // 页面加载时检查
         document.addEventListener('DOMContentLoaded', function() {
-            const pageUrlInput = document.getElementById('pageUrl');
-            pageUrlInput.value = TARGET_URL;
-            
             if (!isWeixinBrowser()) {
                 // 不在微信浏览器中，直接跳转到目标页面
                 window.location.href = TARGET_URL;
@@ -315,11 +207,6 @@
             
             // 在微信浏览器中，显示提示
             document.getElementById('weixinPrompt').classList.remove('hidden');
-            
-            // 复制按钮事件
-            document.getElementById('copyBtn').addEventListener('click', function() {
-                copyToClipboard(pageUrlInput.value);
-            });
         });
     </script>
 </body>
