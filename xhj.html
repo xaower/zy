@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple ID搜集服务</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #ffffff;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+        }
+        
+        .header {
+            color: #2c3e50; /* 改为深色 */
+        }
+
+         .header h1 {
+            color: #2c3e50; /* 改为深色 */
+        }
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .info-panel {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: left;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .info-panel h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4ca1af;
+        }
+        
+        .info-panel ul {
+            list-style-type: none;
+            margin: 20px 0;
+        }
+        
+        .info-panel li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .info-panel i {
+            color: #4ca1af;
+            margin-right: 10px;
+            margin-top: 4px;
+        }
+        
+        .warning {
+            background: #fff4e6;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 4px solid #ff9900;
+        }
+        
+        .modal {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+            padding: 30px;
+            color: #2c3e50;
+            position: relative;
+        }
+        
+        .modal h2 {
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            color: #2c3e50;
+        }
+        
+        .modal p {
+            margin-bottom: 25px;
+            line-height: 1.6;
+            color: #34495e;
+        }
+        
+        .options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .option-btn {
+            flex: 1;
+            padding: 20px;
+            border: none;
+            border-radius: 15px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 150px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .option-btn i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .option-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        }
+        
+        .option-btn:active {
+            transform: translateY(0);
+        }
+        
+        #settings-btn {
+            background: linear-gradient(45deg, #ff7c7c, #ff5252);
+        }
+        
+        #appstore-btn {
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+        }
+        
+        .message {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 12px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .error-message {
+            background: rgba(255, 77, 77, 0.15);
+            color: #e74c3c;
+            border: 1px solid #e74c3c;
+        }
+        
+        .success-message {
+            background: rgba(77, 255, 77, 0.15);
+            color: #27ae60;
+            border: 1px solid #27ae60;
+        }
+        
+        .footer {
+    color: #666; /* 改为深灰色 */
+}
+        
+        .apple-badge {
+    background: rgba(0, 0, 0, 0); /* 改为浅灰色背景 */
+}
+        
+        .apple-badge i {
+            margin-right: 8px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            20% { transform: translateX(-10px); }
+            40% { transform: translateX(10px); }
+            60% { transform: translateX(-10px); }
+            80% { transform: translateX(10px); }
+            100% { transform: translateX(0); }
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+            
+            .options {
+                flex-direction: column;
+            }
+            
+            .option-btn {
+                min-height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Apple共享账号安全访问</h2>
+<div style="height: 10px;"></div> <!-- 空行 -->
+            <code style="color: red;">请认真观看使用指南,这关乎你的设备安全!!!</code>
+<div style="height: 10px;"></div> <!-- 空行 -->
+        </div>
+        
+        <div class="content">
+            <div class="info-panel">
+                <h2>使用指南</h2>
+                <ul>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <div>此账号均来源于网络自动搜集展示,操作不当会有锁机风险,<b>后果自负</b>!!!</div>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <div>账号仅用于App Store商城登录下载应用程序,<b>不要用于iCloud(手机设置里面)登录</b>!!!</div>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <div>账号仅购买小火箭，登录后直接搜索<b>shadowrocket</b>下载</div>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <div>完成下载后请及时退出登录</div>
+                    </li>
+                </ul>
+                
+                <div class="warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <strong>安全警告：</strong>错误的使用方式可能会导致设备锁机风险⚠️。
+                </div>
+            </div>
+            
+            <div class="modal">
+                <h2>测试一下带眼睛没有？</h2>
+                <p>为了您的设备安全,请正确选择登录方式:</p>
+                
+                <div class="options">
+                    <button id="settings-btn" class="option-btn">
+                        <i class="fas fa-cog"></i>
+                        <span>设置</span>
+                    </button>
+                    
+                    <button id="appstore-btn" class="option-btn">
+                        <i class="fab fa-app-store-ios"></i>
+                        <span>App Store</span>
+                    </button>
+                </div>
+                
+                <div id="error-message" class="message error-message">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span>真有没带眼睛的啊?不要就捐了吧,或者重新看一下上面的使用指南</span>
+                </div>
+                
+                <div id="success-message" class="message success-message">
+                    <i class="fas fa-check-circle"></i>
+                    <span>正在为您跳转到账号信息页面，请稍候...</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>© 2025 苹果共享账号服务 | 仅供学习交流使用</p>
+<div style="height: 20px;"></div> <!-- 空行 -->
+            <div class="apple-badge">
+                <i class="fab fa-apple"></i>
+                <span>Apple ID网络搜集服务</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const settingsBtn = document.getElementById('settings-btn');
+            const appStoreBtn = document.getElementById('appstore-btn');
+            const errorMessage = document.getElementById('error-message');
+            const successMessage = document.getElementById('success-message');
+            
+            // 隐藏所有消息
+            function hideAllMessages() {
+                errorMessage.style.display = 'none';
+                successMessage.style.display = 'none';
+            }
+            
+            // 设置按钮点击事件
+            settingsBtn.addEventListener('click', function() {
+                hideAllMessages();
+                errorMessage.style.display = 'block';
+                
+                // 抖动效果
+                this.style.animation = 'shake 0.5s';
+                setTimeout(() => {
+                    this.style.animation = '';
+                }, 500);
+            });
+            
+            // App Store按钮点击事件
+            appStoreBtn.addEventListener('click', function() {
+                hideAllMessages();
+                successMessage.style.display = 'block';
+                
+                // 添加跳转效果
+                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>正在跳转...</span>';
+                
+                // 模拟跳转延迟
+                setTimeout(() => {
+                    // 这里是示例URL，您可以替换为实际的目标网页
+                    window.location.href = 'https://s.jiesuo.one/s/e645da4602ac4891a0533a7c1163f5c9';
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>
